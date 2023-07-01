@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import Groups from "./pages/Groups/Groups";
 import NewGroup from "./pages/Groups/NewGroup";
+import FindGroups from "./pages/Groups/FindGroups";
+import AllGroups from "./pages/Groups/AllGroups";
 
 function App() {
 	const navigate = useNavigate();
@@ -102,16 +104,10 @@ function App() {
 				element={<Register onRegister={registerHandler} />}
 				exact
 			/>
-			<Route
-				path="/groups"
-				element={<Groups />}
-				exact
-			/>
-			<Route
-				path="/groups/new"
-				element={<NewGroup />}
-				exact
-			/>
+			<Route path="/groups" element={<Groups />} exact />
+			<Route path="/groups/new" element={<NewGroup />} exact />
+			<Route path="/groups/find" element={<FindGroups />} exact />
+			<Route path="/groups/:genre/all" element={<AllGroups />} exact />
 		</Routes>
 	);
 }

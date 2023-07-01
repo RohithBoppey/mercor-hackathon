@@ -1,17 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Navbar } from "../../components/Navbar/Navbar";
 import {
 	Button,
-	Center,
 	Container,
 	Select,
 	Text,
-	TextInput,
 	Textarea,
 	createStyles,
-	rem,
 } from "@mantine/core";
 import { IconHash } from "@tabler/icons-react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const useStyles = createStyles((theme) => ({
 	title: {
@@ -25,13 +25,88 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const NewGroup = () => {
-	const mocktags = ["engineering", "medical", "computer_science"];
+	// const mocktags = [
+	// 	"Jee",
+	// 	"Medical",
+	// 	"Computer Science",
+	// 	"NEET",
+	// 	"Self Help",
+	// ];
 
 	const titleRef = useRef();
 	const descRef = useRef();
+	
+	const navigate = useNavigate();
+
 	const { classes, theme } = useStyles();
 
-	const [tag, setTag] = useState([mocktags]);
+	const [tag, setTag] = useState("");
+	const [allTagNames, setAllTagNames] = useState([]);
+	const [allTags, setAllTags] = useState([]);
+
+	const userDetails = useSelector((state) => state.userDetails);
+
+	useEffect(() => {
+		const getAllTags = async () => {
+			const response = await axios.get(
+				"http://localhost:5000/genres/all"
+			);
+			// console.log(response);
+			const names = [];
+			for (let i of response.data) {
+				names.push(i.name);
+			}
+			setAllTags(response.data);
+			setAllTagNames(names);
+		};
+		getAllTags();
+	}, []);
+
+	const submitHandler = async () => {
+		const title = titleRef.current.value;
+		const desc = descRef.current.value;
+
+		if (title.length === 0) {
+			alert("Enter a valid title");
+			return;
+		}
+
+		if (desc.length === 0) {
+			alert("Enter a valid description");
+			return;
+		}
+
+		if (tag == null || tag.length === 0) {
+			alert("Select a valid tag");
+			return;
+		}
+
+		let index = allTagNames.findIndex(function (name) {
+			return name === tag;
+		});
+
+		// console.log(index);
+
+		const details = {
+			title: title,
+			description: desc,
+			genre: allTags[index]._id,
+			created_by: userDetails._id
+		};
+
+		console.log(details);
+
+		// sending to backend
+
+		await axios.post(
+			"http://localhost:5000/groups/new-group",
+			details
+		);
+		
+		alert(`New Group added in ${tag} genre, check it out!`)
+
+		navigate('/groups')
+	};
 
 	return (
 		<div>
@@ -61,8 +136,7 @@ const NewGroup = () => {
 			<Container size="xs" align="center">
 				<Select
 					mt="md"
-					withinPortal
-					data={mocktags}
+					data={allTagNames}
 					onChange={setTag}
 					searchable
 					allowDeselect
@@ -72,10 +146,10 @@ const NewGroup = () => {
 					classNames={classes}
 					required
 				/>
-				<TextInput placeholder="New tag" label="tag" withAsterisk />
-				<Button mt={30} mb={30}>
+				<Button mt={30} mb={30} onClick={submitHandler}>
 					Add a new group
 				</Button>
+				{/* <Loader /> */}
 			</Container>
 		</div>
 	);

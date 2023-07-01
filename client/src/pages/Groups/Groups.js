@@ -54,19 +54,31 @@ const mockdata = [
 		title: "JEE",
 		icon: IconQuestionMark,
 		color: "red",
-		link: "/groups/jee",
+		link: "/groups/jee/all",
 	},
 	{
 		title: "Computer Science",
 		icon: IconCalendarTime,
 		color: "teal",
-		link: "/groups/cse",
+		link: "/groups/cse/all",
 	},
 	{
 		title: "Medical",
 		icon: IconTimeline,
 		color: "pink",
-		link: "/groups/medical",
+		link: "/groups/medical/all",
+	},
+	{
+		title: "NEET",
+		icon: IconTimeline,
+		color: "pink",
+		link: "/groups/neet/all",
+	},
+	{
+		title: "Self Help",
+		icon: IconTimeline,
+		color: "pink",
+		link: "/groups/self_help/all",
 	},
 ];
 
@@ -88,14 +100,17 @@ const Groups = () => {
 
 	return (
 		<div>
-            <Navbar />
+			<Navbar />
 			<Container size="70%" align="center" mt={80} mb={100}>
 				<Text className={classes.title}>Famous Groups</Text>
-                <Text pt={20}>Choose your groups based on famous tags</Text>
+				<Text pt={20}>Choose your groups based on famous tags</Text>
 				<SimpleGrid cols={3} mt="md" pb={20} pt={20}>
 					{items}
 				</SimpleGrid>
-                <Text>You can always start a new group <Link to = {`/groups/new`}>here</Link>!</Text>
+				<Text>
+					You can always start a new group{" "}
+					<Link to={`/groups/new`}>here</Link>!
+				</Text>
 			</Container>
 		</div>
 	);
