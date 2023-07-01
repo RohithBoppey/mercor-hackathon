@@ -4,6 +4,8 @@ import { Register } from "./pages/Register";
 import axios from "axios";
 import Home from "./pages/Homepage/Home";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import UserProfile from "./pages/UserProfile/UserProfile";
 
 function App() {
 	const navigate = useNavigate();
@@ -60,12 +62,37 @@ function App() {
 		return true;
 	};
 
+	useEffect(() => {
+		const checkLocalStorageAndLogin = async () => {
+			const id = localStorage.getItem("id");
+			if (id !== undefined && id !== null) {
+				let det;
+				det = await axios.get(
+					`http://localhost:5000/students/find/${id}`
+				);
+				dispatcher({ type: "login", value: det.data[0] });
+			}
+		};
+		checkLocalStorageAndLogin();
+	}, []);
+
+	const logoutHandler = () => {
+		dispatcher({ type: "logout" });
+		localStorage.removeItem("id");
+		navigate("/login");
+	};
+
 	return (
 		<Routes>
 			<Route path="/" element={<Home />} exact />
 			<Route
 				path="/login"
 				element={<Login onLogin={loginHandler} />}
+				exact
+			/>
+			<Route
+				path="/user-profile"
+				element={<UserProfile onLogout={logoutHandler} />}
 				exact
 			/>
 			<Route

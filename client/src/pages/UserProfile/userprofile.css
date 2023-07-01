@@ -1,0 +1,54 @@
+.container-up{
+    padding:5%;
+}
+
+.container-up .details{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left:3px solid #ded4da;
+}
+.container-up .details p{
+    padding-left: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size:15px;
+    font-weight:bold;
+}
+
+
+.profileImage{
+    width: 5%;
+}
+
+.middle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-m{
+    border: 2px solid black;
+}
+
+.table-m,
+.tr-m,
+.th-m,
+.td-m {
+    border-radius: 10px;
+    padding: 10px;
+    border: 2px solid black;
+}
+.alcenter{
+    display: flex;
+    justify-content: center;
+    
+}
+.td-m {
+    text-align: center;
+}
+
+.h2-m{
+    padding-left: 20px;
+}
