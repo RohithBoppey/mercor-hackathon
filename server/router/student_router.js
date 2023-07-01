@@ -1,6 +1,18 @@
+require("dotenv").config();
 const Student = require('../models/Student');
+const TempStudent = require("../models/Temp");
 
 const student_router = require('express').Router();
+
+const nodemailer = require("nodemailer");
+
+let smtpTransport = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: process.env.Gmail,
+    pass: process.env.Password,
+  },
+});
 
 student_router.get('/all-students', async (req, res) => {
     const students = await Student.find();
@@ -24,26 +36,35 @@ student_router.post("/register", async (req, res) => {
 	let user = await Student.findOne({
 		email: req.body.email,
 	});
-	console.log(user);
-	let newUser = null;
+
 	if (user === null) {
 		// hence no user
 		// we need to save
-		console.log(req.body);
-		newUser = await Student.create({
-			fullname: req.body.fullname,
-			gender: req.body.gender,
-			email: req.body.email,
-			year: req.body.year,
-			password: req.body.password,
-		});
-		newUser.save();
-		user = newUser;
+
+        TempStudent(req.body)
+		.save()
+		.then( (newuser) => {
+			let link = "http://"+req.get('host')+"/otp/verify?id="+newuser._id;
+			smtpTransport.sendMail({
+				to : req.body.email,
+				subject : "Confirmation Email",
+				html : "Hello "+req.body.fullname+"<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+			},(err) => {
+				if(err){
+					TempStudent.findByIdAndDelete(user._id)
+            		res.send("Unable to process your request try after sometime.")
+				}
+				else
+					res.send("An Email has been sent to verify your email address,Login after verification.")
+			})
+		  
+        })
+		.catch((err) => {
+			res.send("Unable to process your request try after sometime.");
+		})
 	} else {
-		user =
-			"You have already previously registered! Please login using the same email.";
+		res.send("You have already previously registered! Please login using the same email.")
 	}
-	res.send(user);
 });
 
 module.exports = student_router;
