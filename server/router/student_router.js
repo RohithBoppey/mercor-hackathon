@@ -1,11 +1,11 @@
-const Student = require('../models/Student');
+const Student = require("../models/Student");
 
-const student_router = require('express').Router();
+const student_router = require("express").Router();
 
-student_router.get('/all-students', async (req, res) => {
-    const students = await Student.find();
+student_router.get("/all-students", async (req, res) => {
+	const students = await Student.find();
 	res.json(students);
-})
+});
 
 student_router.post("/login", async (req, res) => {
 	const student = await Student.findOne({
@@ -44,6 +44,11 @@ student_router.post("/register", async (req, res) => {
 			"You have already previously registered! Please login using the same email.";
 	}
 	res.send(user);
+});
+
+student_router.get("/find/:id", async (req, res) => {
+	const user = await Student.find({ _id: req.params.id });
+	res.json(user);
 });
 
 module.exports = student_router;
