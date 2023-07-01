@@ -24,9 +24,11 @@ mongoose
 app.use(cors());
 
 const student_router = require("./router/student_router");
+const otp_router = require("./router/otp_router")
 
 app.use("/students", student_router);
 
+app.use("/otp",otp_router)
 
 
 // start server
