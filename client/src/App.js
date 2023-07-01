@@ -6,6 +6,8 @@ import Home from "./pages/Homepage/Home";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import Groups from "./pages/Groups/Groups";
+import NewGroup from "./pages/Groups/NewGroup";
 
 function App() {
 	const navigate = useNavigate();
@@ -98,6 +100,16 @@ function App() {
 			<Route
 				path="/register"
 				element={<Register onRegister={registerHandler} />}
+				exact
+			/>
+			<Route
+				path="/groups"
+				element={<Groups />}
+				exact
+			/>
+			<Route
+				path="/groups/new"
+				element={<NewGroup />}
 				exact
 			/>
 		</Routes>

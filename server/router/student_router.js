@@ -1,5 +1,5 @@
 require("dotenv").config();
-const Student = require('../models/Student');
+const Student = require("../models/Student");
 const TempStudent = require("../models/Temp");
 
 const student_router = require("express").Router();
@@ -7,16 +7,16 @@ const student_router = require("express").Router();
 const nodemailer = require("nodemailer");
 
 let smtpTransport = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: process.env.Gmail,
-    pass: process.env.Password,
-  },
+	service: "Gmail",
+	auth: {
+		user: process.env.Gmail,
+		pass: process.env.Password,
+	},
 });
 
-student_router.get('/all-students', async (req, res) => {
-    const students = await Student.find();
-	  res.json(students);
+student_router.get("/all-students", async (req, res) => {
+	const students = await Student.find();
+	res.json(students);
 });
 
 student_router.post("/login", async (req, res) => {
@@ -41,29 +41,45 @@ student_router.post("/register", async (req, res) => {
 		// hence no user
 		// we need to save
 
-        TempStudent(req.body)
-		.save()
-		.then( (newuser) => {
-			let link = "http://"+req.get('host')+"/otp/verify?id="+newuser._id;
-			smtpTransport.sendMail({
-				to : req.body.email,
-				subject : "Confirmation Email",
-				html : "Hello "+req.body.fullname+"<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-			},(err) => {
-				if(err){
-					TempStudent.findByIdAndDelete(user._id)
-            		res.send("Unable to process your request try after sometime.")
-				}
-				else
-					res.send("An Email has been sent to verify your email address,Login after verification.")
+		TempStudent(req.body)
+			.save()
+			.then((newuser) => {
+				let link =
+					"http://" +
+					req.get("host") +
+					"/otp/verify?id=" +
+					newuser._id;
+				smtpTransport.sendMail(
+					{
+						to: req.body.email,
+						subject: "Confirmation Email",
+						html:
+							"Hello " +
+							req.body.fullname +
+							"<br> Please click on the link to verify your email.<br><a href=" +
+							link +
+							">Click here to verify</a>",
+					},
+					(err) => {
+						if (err) {
+							TempStudent.findByIdAndDelete(user._id);
+							res.send(
+								"Unable to process your request try after sometime."
+							);
+						} else
+							res.send(
+								"An Email has been sent to verify your email address,Login after verification."
+							);
+					}
+				);
 			})
-		  
-        })
-		.catch((err) => {
-			res.send("Unable to process your request try after sometime.");
-		})
+			.catch((err) => {
+				res.send("Unable to process your request try after sometime.");
+			});
 	} else {
-		res.send("You have already previously registered! Please login using the same email.")
+		res.send(
+			"You have already previously registered! Please login using the same email."
+		);
 	}
 });
 

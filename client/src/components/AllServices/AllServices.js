@@ -22,10 +22,10 @@ const mockdata = [
 		link: "/questions",
 	},
 	{
-		title: "Show your Time Table",
+		title: "Join Groups",
 		icon: IconCalendarTime,
 		color: "teal",
-		link: "/timetable",
+		link: "groups",
 	},
 	{
 		title: "Recent Announcements",
