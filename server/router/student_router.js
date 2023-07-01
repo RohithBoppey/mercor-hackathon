@@ -2,7 +2,7 @@ require("dotenv").config();
 const Student = require('../models/Student');
 const TempStudent = require("../models/Temp");
 
-const student_router = require('express').Router();
+const student_router = require("express").Router();
 
 const nodemailer = require("nodemailer");
 
@@ -16,8 +16,8 @@ let smtpTransport = nodemailer.createTransport({
 
 student_router.get('/all-students', async (req, res) => {
     const students = await Student.find();
-	res.json(students);
-})
+	  res.json(students);
+});
 
 student_router.post("/login", async (req, res) => {
 	const student = await Student.findOne({
@@ -65,6 +65,11 @@ student_router.post("/register", async (req, res) => {
 	} else {
 		res.send("You have already previously registered! Please login using the same email.")
 	}
+});
+
+student_router.get("/find/:id", async (req, res) => {
+	const user = await Student.find({ _id: req.params.id });
+	res.json(user);
 });
 
 module.exports = student_router;

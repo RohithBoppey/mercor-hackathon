@@ -178,11 +178,6 @@ export function Navbar() {
 							onClick={() => navigate("/")}>
 							Home
 						</div>
-						<div
-							className={classes.link}
-							onClick={() => navigate("/user-status")}>
-							Check User Status
-						</div>
 						{window.location.pathname !== "/" && (
 							<div
 								className={classes.link}
@@ -204,11 +199,13 @@ export function Navbar() {
 							</Button>
 						</Group>
 					) : (
-						<div
-							className={classes.link}
-							onClick={() => navigate("/user-profile")}>
-							{userDetails.fullname}
-						</div>
+						<>
+							<div
+								className={classes.link}
+								onClick={() => navigate("/user-profile")}>
+								{userDetails.fullname}
+							</div>
+						</>
 					)}
 
 					<Burger
