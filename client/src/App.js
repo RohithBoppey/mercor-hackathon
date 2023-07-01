@@ -2,9 +2,12 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { Login } from "./pages/Login";
 import { Register } from "./pages/Register";
 import axios from "axios";
+import Home from "./pages/Homepage/Home";
+import { useDispatch } from "react-redux";
 
 function App() {
 	const navigate = useNavigate();
+	const dispatcher = useDispatch();
 
 	const loginHandler = async (details) => {
 		// console.log(details);
@@ -23,7 +26,7 @@ function App() {
 		} else {
 			console.log(det.data);
 			localStorage.setItem("id", `${det.data._id}`);
-			// dispatcher({ type: "login", value: det.data });
+			dispatcher({ type: "login", value: det.data });
 			// console.log(userDetails);
 			navigate("/");
 		}
@@ -51,7 +54,7 @@ function App() {
 		} else {
 			console.log(det);
 			localStorage.setItem("id", `${det.data._id}`);
-			// dispatcher({ type: "login", value: det.data });
+			dispatcher({ type: "login", value: det.data });
 			navigate("/");
 		}
 		return true;
@@ -59,6 +62,7 @@ function App() {
 
 	return (
 		<Routes>
+			<Route path="/" element={<Home />} exact />
 			<Route
 				path="/login"
 				element={<Login onLogin={loginHandler} />}
