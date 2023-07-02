@@ -10,7 +10,7 @@ import {
 	Anchor,
 	rem,
 } from "@mantine/core";
-import { useRef } from "react";
+import { useRef,useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
@@ -48,11 +48,13 @@ export function Login(props) {
 	const passwordRef = useRef();
 
 	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(false);
 
 	const onRegister = () => {
 		// alert("in reg");
 		// alert(useremailRef.current.value);
 		// validating
+		setIsLoading(true)
 		const useremail = useremailRef.current.value;
 		const password = passwordRef.current.value;
 		if (useremail.length === 0) {
@@ -72,7 +74,7 @@ export function Login(props) {
 			return;
 		}
 
-		props.onLogin({ useremail, password });
+		props.onLogin({ useremail, password,fun : () => setIsLoading(false) });
 	};
 
 	return (
@@ -102,7 +104,7 @@ export function Login(props) {
 					/>
 
 					<Checkbox label="Keep me logged in" mt="xl" size="md" />
-					<Button fullWidth mt="xl" size="md" onClick={onRegister}>
+					<Button fullWidth mt="xl" size="md" onClick={onRegister} loading={isLoading}>
 						Login
 					</Button>
 
