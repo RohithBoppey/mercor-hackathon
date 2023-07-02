@@ -17,14 +17,14 @@ function App() {
 
 	const loginHandler = async (details) => {
 		// console.log(details);
-		const { useremail, password,fun } = details;
+		const { useremail, password, fun } = details;
 		let det;
 
 		det = await axios.post("http://localhost:5000/students/login", {
 			email: useremail,
 			password: password,
 		});
-		fun()
+		fun();
 		if (typeof det.data === "string") {
 			alert(det.data);
 			navigate("/login");
@@ -40,7 +40,7 @@ function App() {
 
 	const registerHandler = async (details) => {
 		console.log(details);
-		const { username, useremail, password, gender, year, fun} = details;
+		const { username, useremail, password, gender, year, fun } = details;
 
 		let det;
 
