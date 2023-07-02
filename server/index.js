@@ -24,14 +24,19 @@ mongoose
 app.use(cors());
 
 const student_router = require("./router/student_router");
+
 const otp_router = require("./router/otp_router")
 const file_router = require("./router/file_upload")
+const genre_router = require("./router/genre_router");
+const group_router = require("./router/group_router");
 
 app.use("/students", student_router);
 
 app.use("/otp",otp_router)
 
 app.use("/file",file_router)
+app.use("/genres/", genre_router);
+app.use('/groups/', group_router);
 
 // start server
 const PORT = 5000;
