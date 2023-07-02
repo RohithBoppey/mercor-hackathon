@@ -25,11 +25,13 @@ app.use(cors());
 
 const student_router = require("./router/student_router");
 const otp_router = require("./router/otp_router")
+const file_router = require("./router/file_upload")
 
 app.use("/students", student_router);
 
 app.use("/otp",otp_router)
 
+app.use("/file",file_router)
 
 // start server
 const PORT = 5000;
