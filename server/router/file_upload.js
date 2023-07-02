@@ -103,4 +103,20 @@ file_router.get("/filedata/:id", async (req, res) => {
   }
 });
 
+file_router.delete("/:id",async (req,res) => {
+    let id = req.params.id
+    let objId = new ObjectId(id)
+    try {
+      await gridfsBucket.delete(objId)
+      res.send({
+        msg: "Deletion successful",
+      })
+    }
+    catch(err) {
+      res.status(404).send({
+        msg: "Unable to delete file",
+      })
+    }
+})
+
 module.exports = file_router;
