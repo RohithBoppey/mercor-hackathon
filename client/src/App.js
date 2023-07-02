@@ -10,6 +10,7 @@ import Groups from "./pages/Groups/Groups";
 import NewGroup from "./pages/Groups/NewGroup";
 import FindGroups from "./pages/Groups/FindGroups";
 import AllGroups from "./pages/Groups/AllGroups";
+import GroupPage from "./pages/Groups/GroupPage";
 
 function App() {
 	const navigate = useNavigate();
@@ -106,6 +107,7 @@ function App() {
 			<Route path="/groups/new" element={<NewGroup />} exact />
 			<Route path="/groups/find" element={<FindGroups />} exact />
 			<Route path="/groups/:genre/all" element={<AllGroups />} exact />
+			<Route path="group/:genre/:id" element={<GroupPage/>} exact/>
 		</Routes>
 	);
 }

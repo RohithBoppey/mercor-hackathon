@@ -75,6 +75,7 @@ student_router.post("/register", async (req, res) => {
 				);
 			})
 			.catch((err) => {
+				console.log(err)
 				res.send("Unable to process your request try after sometime.");
 			});
 	} else {
