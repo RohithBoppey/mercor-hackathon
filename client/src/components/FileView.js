@@ -1,8 +1,7 @@
 import "./file.css"
 import { Button } from "@mantine/core";
 
-const FileView = (props) => {
-    const {_id,filename,isPdf,isImage,canpreview} = props
+export function FileView(_id,filename,isPdf,isImage,canpreview) {
     return (
       <>
         <div className="file-cont" key={_id}>
@@ -16,6 +15,5 @@ const FileView = (props) => {
         </div>
       </>
     );
-}
+};
 
-export default FileView

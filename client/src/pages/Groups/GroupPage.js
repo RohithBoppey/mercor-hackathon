@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Navbar2 } from "../../components/Navbar/Navbar2";
+import { FileView } from "../../components/FileView"
+import { PDFViewerComponent } from '../pdfviewer'
 const GroupPage = () => {
   const { genre, id } = useParams();
   localStorage.setItem("genre",genre);
   localStorage.setItem("id",id);
+  const [ind,setInd] = useState(0);
+  const [file, setFile] = useState(null);
   const [group, setGroup] = useState(null);
   const [materials, setMaterials] = useState([]);
-  const [tgenre, setTgenre] = useState(null);
-  const [tid, setTid] = useState(null);
   useEffect(() => {
     const fetchGroupData = async () => {
       try {
@@ -41,6 +43,13 @@ const GroupPage = () => {
     fetchMaterialData();
   }, [materials,id]);
 
+  const fetchmaterial = async (id)=>{
+     const res = await axios.get(`http://localhost:5000/file/filedata/${id}`);
+    //  console.log(res.data);
+     setFile(res.data);
+     setInd(1);
+  }
+
   useEffect(() => {
     // console.log(materials);
   }, [materials]);
@@ -49,10 +58,10 @@ const GroupPage = () => {
   if (!group) {
     return <div>Loading...</div>;
   }
-
+  if(ind===0){
   return (
     <div>
-        	 <Navbar2/>
+        	 <Navbar2 />
       <center>
         <h1>{group.title}</h1>
         <p>{group.description}</p>
@@ -61,17 +70,25 @@ const GroupPage = () => {
         {materials.length === undefined ? (
           <p>No materials found.</p>
         ) : (
-          <ul>
+          <div>
             {materials.map((material) => (
-              <li key={material.id}>
+              <li key={material._id} onClick={()=>{fetchmaterial(material._id)}}>
+                 {/* <FileView _id={material._id} filename={materials.filename} canpreview={materials.canpreview}/> */}
                 {material.filename} {material.contentType}
+
               </li>
             ))}
-          </ul>
+          </div>
         )}
       </center>
     </div>
   );
+  }
+  else{
+    return (
+        <PDFViewerComponent pdfContent={file} />
+    );
+}
 };
 
 export default GroupPage;

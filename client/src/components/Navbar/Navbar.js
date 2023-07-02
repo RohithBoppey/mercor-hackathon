@@ -203,7 +203,7 @@ export function Navbar() {
 							<div
 								className={classes.link}
 								onClick={() => navigate("/user-profile")}>
-								{userDetails.fullname}
+								{/* {userDetails?.fullname} */}
 							</div>
 						</>
 					)}
@@ -264,7 +264,7 @@ export function Navbar() {
 						<div
 							className={classes.link}
 							onClick={() => navigate("/user-profile")}>
-							{userDetails.fullname}
+							{/* {userDetails.fullname} */}
 						</div>
 					)}
 
