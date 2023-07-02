@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
+import { Navbar2 } from "../../components/Navbar/Navbar2";
 const GroupPage = () => {
   const { genre, id } = useParams();
+  localStorage.setItem("genre",genre);
+  localStorage.setItem("id",id);
   const [group, setGroup] = useState(null);
   const [materials, setMaterials] = useState([]);
-
+  const [tgenre, setTgenre] = useState(null);
+  const [tid, setTid] = useState(null);
   useEffect(() => {
     const fetchGroupData = async () => {
       try {
@@ -39,8 +42,9 @@ const GroupPage = () => {
   }, [materials,id]);
 
   useEffect(() => {
-    console.log(materials);
+    // console.log(materials);
   }, [materials]);
+
 
   if (!group) {
     return <div>Loading...</div>;
@@ -48,6 +52,7 @@ const GroupPage = () => {
 
   return (
     <div>
+        	 <Navbar2/>
       <center>
         <h1>{group.title}</h1>
         <p>{group.description}</p>
