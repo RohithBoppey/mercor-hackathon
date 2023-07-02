@@ -47,8 +47,9 @@ file_router.post("/upload/:groupid", upload.single("file"), (req, res) => {
   return res.send("successful");
 });
 
-file_router.get("/metadata/:groupid", async (req, res) => {
-  let groupid = req.params.groupid;
+file_router.get("/metadata/:id", async (req, res) => {
+  let groupid = req.params.id;
+  // console.log(groupid)
   let data = await gfs.files
     .find({
       filename: { $regex: `${groupid}$` },

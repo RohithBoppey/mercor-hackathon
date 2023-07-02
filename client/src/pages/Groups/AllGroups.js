@@ -272,9 +272,9 @@ const AllGroups = () => {
 											/> */}
 											{/* {question.description} */}
 											<Text c="dimmed" pt="sm">
-												<u>Asked by:</u> &nbsp;
+												<u>created by:</u> &nbsp;
 												<a
-													href={`user/${group.asked_by}`}>
+													href={`user/${group.created_by}`}>
 													{group.author}
 												</a>{" "}
 												on{" "}
@@ -287,10 +287,10 @@ const AllGroups = () => {
 													variant="light"
 													onClick={() => {
 														navigate(
-															`/question/${group._id}`
+															`/group/${group.genre}/${group._id}`
 														);
 													}}>
-													Open Question
+													Open Group
 												</Button>
 											</Container>
 										</Accordion.Panel>
