@@ -24,7 +24,6 @@ import {
 	IconPlus,
 	IconSearch,
 } from "@tabler/icons-react";
-import { useSelector } from "react-redux";
 import { convertDate } from "../../util/Important Functions";
 import { useParams } from "react-router-dom";
 
@@ -120,6 +119,7 @@ const useStyles = createStyles((theme) => ({
 const AllGroups = () => {
 	const [allGroups, setAllGroups] = useState([]);
 	const [sortBy, setSortBy] = useState("createdAt");
+	const [groups, setGroups] = useState([]);
 
 	const { genre } = useParams();
 
@@ -130,6 +130,7 @@ const AllGroups = () => {
 				`http://localhost:5000/groups/${genre}`
 			);
 			console.log(details);
+			setGroups(details.data);
 			setAllGroups(details.data);
 		};
 		getAllGroups();
@@ -145,11 +146,22 @@ const AllGroups = () => {
 				return bd - ad;
 			},
 		},
-		answers: {
+		students: {
 			method: (a, b) => {
 				return b.answers.length - a.answers.length;
 			},
 		},
+	};
+
+	const onChangeHandler = (event) => {
+		const searchText = event.target.value;
+		const filteredGroups = allGroups.filter(
+			(q) =>
+				q.title.toLowerCase().includes(searchText) ||
+				q.title.includes(searchText)
+		);
+		filteredGroups.sort((a, b) => b.createdAt - a.createdAt);
+		setGroups(filteredGroups);
 	};
 
 	return (
@@ -158,10 +170,10 @@ const AllGroups = () => {
 			<div className={classes.wrapper}>
 				<Container size="sm">
 					<Title align="center" className={classes.title}>
-						Student Forum
+						Find all Groups related to {genre}
 					</Title>
 					<Text c="white" align="center" pb="md">
-						Browse And Answer recently asked questions by lots of
+						Browse And join recently created groups by lots of
 						students!
 					</Text>
 					<Container align="center">
@@ -188,9 +200,9 @@ const AllGroups = () => {
 									)}
 								</ActionIcon>
 							}
-							placeholder="Search questions"
+							placeholder="Search groups"
 							rightSectionWidth={42}
-							// onChange={onChangeHandler}
+							onChange={onChangeHandler}
 						/>
 						<Select
 							mt="md"
@@ -231,13 +243,13 @@ const AllGroups = () => {
 								</ThemeIcon>
 							</>
 						}>
-						{allGroups.sort(sortMethods[sortBy].method).length ===
+						{groups.sort(sortMethods[sortBy].method).length ===
 						0 ? (
 							<Container align="center" pt="sm">
 								<i>OOPS! No questions found!</i>
 							</Container>
 						) : (
-							allGroups.map((group) => {
+							groups.map((group) => {
 								return (
 									<Accordion.Item
 										key={group._id}
