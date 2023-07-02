@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navbar } from "../../components/Navbar/Navbar";
-
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
 	Accordion,
@@ -120,7 +120,7 @@ const AllGroups = () => {
 	const [allGroups, setAllGroups] = useState([]);
 	const [sortBy, setSortBy] = useState("createdAt");
 	const [groups, setGroups] = useState([]);
-
+    const navigate = useNavigate();
 	const { genre } = useParams();
 
 	const { classes } = useStyles();
