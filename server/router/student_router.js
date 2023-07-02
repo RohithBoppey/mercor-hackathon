@@ -37,6 +37,7 @@ student_router.post("/register", async (req, res) => {
 		email: req.body.email,
 	});
 
+	console.log(user);
 	if (user === null) {
 		// hence no user
 		// we need to save
@@ -62,7 +63,7 @@ student_router.post("/register", async (req, res) => {
 					},
 					(err) => {
 						if (err) {
-							TempStudent.findByIdAndDelete(user._id);
+							TempStudent.findByIdAndDelete(newuser._id);
 							res.send(
 								"Unable to process your request try after sometime."
 							);

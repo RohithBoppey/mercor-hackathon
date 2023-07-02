@@ -6,6 +6,7 @@ const groupSchema = new mongoose.Schema({
 	title: String,
 	description: String,
 	genre: { type: ObjectId, ref: "genres" },
+	questions: [{ type: ObjectId, ref: "questions" }],
 	created_by: {type: ObjectId, ref: "students"},
 	createdAt: {
 		type: Date,
