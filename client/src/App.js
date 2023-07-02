@@ -17,20 +17,18 @@ function App() {
 
 	const loginHandler = async (details) => {
 		// console.log(details);
-		const { useremail, password } = details;
+		const { useremail, password,fun } = details;
 		let det;
 
 		det = await axios.post("http://localhost:5000/students/login", {
 			email: useremail,
 			password: password,
 		});
-
-		console.log(det.data);
+		fun()
 		if (typeof det.data === "string") {
 			alert(det.data);
 			navigate("/login");
 		} else {
-			console.log(det.data);
 			localStorage.setItem("id", `${det.data._id}`);
 			dispatcher({ type: "login", value: det.data });
 			// console.log(userDetails);
@@ -42,7 +40,7 @@ function App() {
 
 	const registerHandler = async (details) => {
 		console.log(details);
-		const { username, useremail, password, gender, year } = details;
+		const { username, useremail, password, gender, year, fun} = details;
 
 		let det;
 
@@ -53,7 +51,7 @@ function App() {
 			gender: gender,
 			year: year,
 		});
-
+		fun();
 		if (typeof det.data === "string") {
 			alert(det.data);
 			navigate("/login");

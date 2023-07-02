@@ -50,9 +50,11 @@ export function Register(props) {
 	const passwordRef = useRef();
 	const [gender, setGender] = useState("Male");
 	const [year, setYear] = useState("Secondary School");
+	const [isLoading,setIsLoading] = useState(false)
 	const navigate = useNavigate();
 
 	const onRegister = () => {
+		setIsLoading(true)
 		// alert("in reg");
 		// alert(useremailRef.current.value);
 		// validating
@@ -116,6 +118,7 @@ export function Register(props) {
 			password,
 			gender,
 			year,
+			fun : () => setIsLoading(false)
 		});
 	};
 
@@ -187,7 +190,7 @@ export function Register(props) {
 						/>
 					</>
 
-					<Button fullWidth mt="xl" size="md" onClick={onRegister}>
+					<Button fullWidth mt="xl" size="md" loading={isLoading} onClick={onRegister}>
 						Register
 					</Button>
 
